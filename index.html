@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEWBIE TRADE COMMUNITY - Portal Member Eksklusif</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            300: '#fde047',
+                            400: '#facc15',
+                            500: '#eab308',
+                            600: '#ca8a04',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- FIREBASE SDK (REALTIME DATABASE) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <!-- CUSTOM ANIMATION STYLES -->
+    <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="bg-amber-500 text-slate-950 font-extrabold px-2.5 py-1 rounded text-lg tracking-wider font-mono shadow-lg shadow-amber-500/20">
+                    NTC
+                </div>
+                <div>
+                    <h1 class="text-base font-bold text-slate-100 leading-tight">NEWBIE TRADE COMMUNITY</h1>
+                    <p class="text-xs text-amber-400">Portal Eksklusif Member New Generation</p>
+                </div>
+            </div>
+
+            <!-- Profile Info, WhatsApp, Guide & Modal Trigger -->
+            <div class="flex items-center gap-2.5">
+                <button onclick="toggleModal('guideModal')" class="hidden sm:flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-amber-400 border border-amber-500/30 text-xs font-semibold px-3 py-2 rounded-lg transition-all">
+                    <i class="fa-solid fa-circle-question"><span> Panduan</span></i>
+                </button>
+
+                <a href="https://chat.whatsapp.com/F48L3WquvuH9hLzq0ozP2Z" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-2 rounded-lg transition-all flex items-center gap-1.5 shadow-md shadow-emerald-900/20">
+                    <i class="fa-brands fa-whatsapp text-sm"></i> <span class="hidden md:inline">Grup WhatsApp</span>
+                </a>
+
+                <div id="userBadge" class="hidden sm:flex items-center gap-2 bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-lg text-xs">
+                    <span id="dbStatusIndicator" class="w-2 h-2 rounded-full bg-amber-500 animate-pulse" title="Menghubungkan Database..."></span>
+                    <span class="text-slate-300 font-mono">Role: <strong id="displayUserRole" class="text-amber-400">GUEST</strong></span>
+                </div>
+                <button onclick="toggleModal('loginModal')" class="bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-bold px-3.5 py-2 rounded-lg transition-all flex items-center gap-1.5 shadow-lg shadow-amber-500/10 hover:scale-105">
+                    <i class="fa-solid fa-user-lock"></i> <span id="loginBtnText">Login / Daftar</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- NOTIFIKASI NEWS WARNING BANNER -->
+    <div class="bg-amber-500/10 border-b border-amber-500/30 px-4 py-2">
+        <div class="max-w-7xl mx-auto flex items-center justify-between text-xs text-amber-300">
+            <div class="flex items-center gap-2 overflow-hidden">
+                <i class="fa-solid fa-triangle-exclamation text-amber-400 animate-bounce flex-shrink-0"></i>
+                <span id="topNewsTicker" class="truncate"><strong>LIVE FOREX FACTORY:</strong> Memuat berita high impact terbaru...</span>
+            </div>
+            <button onclick="fetchLiveForexFactoryNews()" class="text-[10px] bg-amber-500/20 hover:bg-amber-500/30 px-2 py-0.5 rounded border border-amber-500/30 font-mono flex-shrink-0 ml-2">
+                <i class="fa-solid fa-rotate"></i> Refresh News
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full space-y-8 animate-fade-in-up">
+
+        <!-- PANEL EKSKLUSIF ADMIN: KELOLA MEMBER -->
+        <section id="adminMemberPanel" class="hidden bg-slate-900 border border-red-500/40 rounded-2xl p-6 shadow-2xl space-y-4 transition-all duration-500">
+            <div class="flex flex-col sm:flex-row justify-between sm:items-center pb-3 border-b border-slate-800 gap-2">
+                <div class="flex items-center gap-2.5">
+                    <span class="bg-red-500 text-slate-950 p-2 rounded-lg text-sm font-bold">
+                        <i class="fa-solid fa-database"></i>
+                    </span>
+                    <div>
+                        <h2 class="text-lg font-bold text-red-400">Panel Kelola Member (Firebase Cloud Database)</h2>
+                        <p class="text-xs text-slate-400">Tersambung langsung ke Database Pusat. Aksi hapus member akan langsung mengubah server.</p>
+                    </div>
+                </div>
+                <div class="bg-slate-950 border border-red-500/30 px-4 py-2 rounded-xl text-xs font-mono">
+                    <span class="text-slate-400">Total Member Terdaftar:</span>
+                    <strong id="totalMemberCount" class="text-amber-400 text-sm ml-1 font-bold">0 Member</strong>
+                </div>
+            </div>
+
+            <!-- Tabel Member Terdaftar -->
+            <div class="overflow-x-auto bg-slate-950 border border-slate-800 rounded-xl">
+                <table class="w-full text-left text-xs font-mono">
+                    <thead class="bg-slate-900 text-slate-400 uppercase text-[10px] border-b border-slate-800">
+                        <tr>
+                            <th class="p-3">No</th>
+                            <th class="p-3">ID Member</th>
+                            <th class="p-3">Nama Lengkap</th>
+                            <th class="p-3">Email</th>
+                            <th class="p-3">WhatsApp</th>
+                            <th class="p-3 text-center">Role</th>
+                            <th class="p-3 text-center">Aksi Admin</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminMemberListBody" class="divide-y divide-slate-800 text-slate-300">
+                        <!-- Diisi Otomatis via Firebase DB -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECTION BROKER MITRA & GRUP WA NTC -->
+        <section class="bg-gradient-to-r from-slate-900 via-slate-900 to-amber-950/40 border border-amber-500/30 rounded-2xl p-6 shadow-2xl relative overflow-hidden transition-all duration-300 hover:border-amber-500/50">
+            <div class="flex flex-col lg:flex-row items-center justify-between gap-6 relative z-10">
+                <div class="space-y-2 text-center lg:text-left">
+                    <span class="bg-amber-500/20 text-amber-400 text-xs font-bold px-3 py-1 rounded-full border border-amber-500/30">
+                        OFFICIAL COMMUNITY PARTNER
+                    </span>
+                    <h2 class="text-xl md:text-2xl font-extrabold text-slate-100">
+                        Broker Mitra Resmi NTC New Generation
+                    </h2>
+                    <p class="text-xs md:text-sm text-slate-400 max-w-xl">
+                        Dapatkan fasilitas akun cent, leverage optimal, spread rendah, serta akses otomatis ke grup diskusi & sinyal VIP dengan mendaftar di broker mitra pilihan kami.
+                    </p>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto">
+                    <a href="https://ma.valetax-indonesia.com/p/3738247" target="_blank" class="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 transition-all shadow-lg shadow-amber-500/10 hover:scale-105">
+                        <i class="fa-solid fa-building-columns"></i> Daftar Valetax
+                    </a>
+                    <a href="https://one.exnessonelink.com/a/npllcqyjy0" target="_blank" class="w-full sm:w-auto bg-yellow-400 hover:bg-yellow-500 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 transition-all shadow-lg shadow-yellow-500/10 hover:scale-105">
+                        <i class="fa-solid fa-chart-pie"></i> Daftar Exness
+                    </a>
+                    <a href="https://chat.whatsapp.com/F48L3WquvuH9hLzq0ozP2Z" target="_blank" class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 transition-all shadow-lg shadow-emerald-600/20 hover:scale-105">
+                        <i class="fa-brands fa-whatsapp text-sm"></i> Join WhatsApp
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: ROOM SHARING DISKUSI (GAYA DISCORD + FOTO/DOKUMEN + HAPUS MANUAL) -->
+        <section class="bg-slate-900 border border-slate-800 rounded-2xl shadow-xl overflow-hidden">
+            <div class="bg-slate-900/80 px-6 py-4 border-b border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                <div class="flex items-center gap-3">
+                    <span class="bg-amber-500/20 text-amber-400 p-2.5 rounded-xl text-sm font-bold border border-amber-500/30">
+                        <i class="fa-solid fa-comments"></i>
+                    </span>
+                    <div>
+                        <h2 class="text-base font-bold text-slate-100">NTC Community Room Sharing (Live Chat & Media)</h2>
+                        <p class="text-xs text-slate-400">Diskusikan setup market, kirim foto chart, dan dokumen analisis bersama member.</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 text-xs font-mono bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="text-slate-300">Active Room: <strong id="activeChannelName" class="text-amber-400">#general-chat</strong></span>
+                </div>
+            </div>
+
+            <!-- Discord Style Container -->
+            <div class="grid grid-cols-1 md:grid-cols-4 min-h-[440px]">
+                <!-- Sidebar Channels -->
+                <div class="bg-slate-950/60 border-r border-slate-800 p-4 space-y-2">
+                    <span class="text-[10px] font-mono font-bold uppercase text-slate-500 tracking-wider px-2">Text Channels</span>
+                    <div class="space-y-1">
+                        <button onclick="switchChannel('general-chat', '#general-chat')" id="btn_general-chat" class="w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-amber-400 bg-amber-500/10 border border-amber-500/20 transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-hashtag text-[10px]"></i> general-chat
+                        </button>
+                        <button onclick="switchChannel('xauusd-analysis', '#xauusd-analysis')" id="btn_xauusd-analysis" class="w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-900 transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-hashtag text-[10px]"></i> xauusd-analysis
+                        </button>
+                        <button onclick="switchChannel('psychology-trading', '#psychology-trading')" id="btn_psychology-trading" class="w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-900 transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-hashtag text-[10px]"></i> psychology-trading
+                        </button>
+                        <button onclick="switchChannel('signal-sharing', '#signal-sharing')" id="btn_signal-sharing" class="w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-900 transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-hashtag text-[10px]"></i> signal-sharing
+                        </button>
+                    </div>
+
+                    <div class="pt-4 mt-4 border-t border-slate-800/80">
+                        <span class="text-[10px] font-mono font-bold uppercase text-slate-500 tracking-wider px-2">Status Akun Chat</span>
+                        <div class="mt-2 px-2 text-xs text-slate-400">
+                            Login sebagai: <strong id="chatUserIndicator" class="text-amber-400 block truncate">GUEST (Harap Login)</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Box Area -->
+                <div class="md:col-span-3 flex flex-col justify-between bg-slate-900/40">
+                    <!-- Messages List -->
+                    <div id="chatMessagesContainer" class="p-4 space-y-3 overflow-y-auto max-h-[350px] text-xs font-mono">
+                        <div class="text-center text-slate-500 py-10"><i class="fa-solid fa-spinner fa-spin"></i> Memuat Pesan Room Sharing...</div>
+                    </div>
+
+                    <!-- Input Form Chat + Lampiran File -->
+                    <div class="p-3 bg-slate-950 border-t border-slate-800 space-y-2">
+                        <!-- Preview Lampiran Terpilih -->
+                        <div id="filePreviewContainer" class="hidden flex items-center justify-between bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-lg text-xs">
+                            <span id="filePreviewName" class="text-amber-400 truncate max-w-xs font-mono">Lampiran.png</span>
+                            <button type="button" onclick="clearAttachment()" class="text-red-400 hover:text-red-300"><i class="fa-solid fa-xmark"></i> Batal</button>
+                        </div>
+
+                        <form onsubmit="sendChatMessage(event)" class="flex gap-2 items-center">
+                            <!-- Hidden File Input -->
+                            <input type="file" id="chatFileInput" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.txt" onchange="handleFileSelect(event)" class="hidden">
+                            
+                            <button type="button" onclick="document.getElementById('chatFileInput').click()" class="bg-slate-900 hover:bg-slate-800 text-amber-400 border border-slate-800 p-2.5 rounded-xl transition-all text-xs" title="Kirim Foto / Dokumen">
+                                <i class="fa-solid fa-paperclip text-sm"></i>
+                            </button>
+
+                            <input type="text" id="chatInputMessage" placeholder="Ketik pesan diskusi atau analisis..." class="flex-grow bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:border-amber-500 focus:outline-none font-sans">
+                            
+                            <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2.5 rounded-xl transition-all text-xs flex items-center gap-1.5 shadow-lg shadow-amber-500/10">
+                                <i class="fa-solid fa-paper-plane"></i> <span class="hidden sm:inline">Kirim</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 1: SESI PASAR PRESISI & LIVE API FOREX FACTORY NEWS -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Jam Kerja Trading & Sesi Pasar Presisi (WITA) -->
+            <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg transition-all hover:border-slate-700">
+                <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-4 pb-3 border-b border-slate-800 gap-2">
+                    <h2 class="text-lg font-bold text-slate-100 flex items-center gap-2">
+                        <i class="fa-solid fa-clock text-amber-400"></i> Sesi Pasar Presisi Real-Time (WITA)
+                    </h2>
+                    <div class="text-xs font-mono bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800 text-slate-300">
+                        WITA: <strong id="clockWITA" class="text-amber-400">00:00:00</strong>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+                    <div id="sessionAsia" class="bg-slate-950 p-3 rounded-lg border border-slate-800 transition-all">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-xs text-slate-400 font-semibold">Sesi Asia</span>
+                            <span id="badgeAsia" class="text-[10px] bg-slate-800 text-slate-400 font-bold px-1.5 py-0.5 rounded">OFFLINE</span>
+                        </div>
+                        <div class="text-sm font-bold text-slate-200">06:00 – 15:00 WITA</div>
+                        <div class="text-[11px] text-slate-500">Sydney & Tokyo</div>
+                    </div>
+
+                    <div id="sessionLondon" class="bg-slate-950 p-3 rounded-lg border border-slate-800 transition-all">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-xs text-slate-400 font-semibold">Sesi London</span>
+                            <span id="badgeLondon" class="text-[10px] bg-slate-800 text-slate-400 font-bold px-1.5 py-0.5 rounded">OFFLINE</span>
+                        </div>
+                        <div class="text-sm font-bold text-slate-200">15:00 – 00:00 WITA</div>
+                        <div class="text-[11px] text-slate-500">Eropa & Inggris</div>
+                    </div>
+
+                    <div id="sessionNY" class="bg-slate-950 p-3 rounded-lg border border-slate-800 transition-all">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-xs text-slate-400 font-semibold">Sesi New York</span>
+                            <span id="badgeNY" class="text-[10px] bg-slate-800 text-slate-400 font-bold px-1.5 py-0.5 rounded">OFFLINE</span>
+                        </div>
+                        <div class="text-sm font-bold text-slate-200">20:00 – 05:00 WITA</div>
+                        <div class="text-[11px] text-slate-500">Amerika Serikat</div>
+                    </div>
+                </div>
+
+                <div class="bg-amber-500/5 border border-amber-500/20 rounded-lg p-3 flex items-
