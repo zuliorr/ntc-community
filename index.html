@@ -169,7 +169,7 @@
             </div>
         </section>
 
-        <!-- SECTION: ROOM SHARING DISKUSI (GAYA DISCORD + FOTO/DOKUMEN + HAPUS MANUAL) -->
+        <!-- SECTION: ROOM SHARING DISKUSI -->
         <section class="bg-slate-900 border border-slate-800 rounded-2xl shadow-xl overflow-hidden">
             <div class="bg-slate-900/80 px-6 py-4 border-b border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                 <div class="flex items-center gap-3">
@@ -327,7 +327,7 @@
                 </div>
 
                 <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex justify-between">
-                    <span>Sumber: <strong>ForexFactory Live Feed</strong></span>
+                    <span>Sumber: <strong>Parse.Bot API Feed</strong></span>
                     <span class="text-amber-400 font-semibold">SOP High Impact</span>
                 </div>
             </div>
@@ -413,14 +413,14 @@
             </div>
         </section>
 
-        <!-- LEADERBOARD TRADER NTC (PUBLIK MEMBER DENGAN FITUR REFRESH) -->
+        <!-- LEADERBOARD TRADER NTC (PUBLIK MEMBER DENGAN AUTO-UPDATE SINKRON) -->
         <section class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl transition-all hover:border-slate-700">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-800">
                 <div>
                     <h2 class="text-xl font-bold text-amber-400 flex items-center gap-2">
                         <i class="fa-solid fa-trophy"></i> Leaderboard Trader NTC (Publik Member)
                     </h2>
-                    <p class="text-xs text-slate-400 mt-1">Peringkat performa trading tersinkronisasi otomatis via database pusat.</p>
+                    <p class="text-xs text-slate-400 mt-1">Peringkat & Win Rate diperbarui otomatis secara real-time saat Anda mengisi Jurnal Trading.</p>
                 </div>
                 <div class="flex items-center gap-3">
                     <button onclick="refreshLeaderboardData()" class="bg-amber-500/20 hover:bg-amber-500/30 text-amber-400 border border-amber-500/30 text-xs font-bold px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 font-mono hover:scale-105">
@@ -498,7 +498,7 @@
                     <h2 class="text-xl font-bold text-slate-100 flex items-center gap-2">
                         <i class="fa-solid fa-book-journal-whills text-amber-400"></i> Jurnal Trading & Kurva Ekuitas
                     </h2>
-                    <p class="text-xs text-slate-400 mt-0.5">Kelola catatan trading Anda. Data tersimpan aman di perangkat lokal Anda.</p>
+                    <p class="text-xs text-slate-400 mt-0.5">Kelola catatan trading Anda. Setiap perubahan akan mengupdate statistik Anda di Leaderboard!</p>
                 </div>
                 
                 <div class="flex items-center gap-2 bg-slate-950 border border-slate-800 p-2 rounded-xl text-xs">
@@ -631,7 +631,7 @@
         </div>
     </div>
 
-    <!-- MODAL PANDUAN PENGGUNAAN FITUR (GUIDE & ONBOARDING) -->
+    <!-- MODAL PANDUAN PENGGUNAAN FITUR -->
     <div id="guideModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="bg-slate-900 border border-amber-500/40 w-full max-w-2xl rounded-2xl p-6 shadow-2xl relative animate-fade-in-up max-h-[90vh] overflow-y-auto">
             <button onclick="toggleModal('guideModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-100">
@@ -668,16 +668,8 @@
                 <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 flex items-start gap-3">
                     <span class="bg-amber-500/20 text-amber-400 font-mono font-bold px-2.5 py-1 rounded">3</span>
                     <div>
-                        <strong class="text-slate-100 block mb-0.5">Ikuti Sinyal Admin & Kalkulator Risiko</strong>
-                        <p class="text-slate-400">Lihat siaran sinyal langsung dari Admin pada bagian "NTC Live Signal". Gunakan Kalkulator Risiko Cent untuk menghitung lot presisi sebelum membuka posisi.</p>
-                    </div>
-                </div>
-
-                <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 flex items-start gap-3">
-                    <span class="bg-amber-500/20 text-amber-400 font-mono font-bold px-2.5 py-1 rounded">4</span>
-                    <div>
-                        <strong class="text-slate-100 block mb-0.5">Catat Jurnal & Cek Leaderboard</strong>
-                        <p class="text-slate-400">Catat setiap entry trading Anda di Jurnal untuk melihat grafik kurva ekuitas secara otomatis, dan klik tombol **Refresh Data** pada Leaderboard untuk melihat perkembangan peringkat member.</p>
+                        <strong class="text-slate-100 block mb-0.5">Auto Leaderboard Sync</strong>
+                        <p class="text-slate-400">Setiap kali Anda menambah/menghapus transaksi di Jurnal Trading, Win Rate, PnL, dan NTC Score Anda akan ter-update otomatis di Leaderboard Publik!</p>
                     </div>
                 </div>
             </div>
@@ -782,7 +774,7 @@
             });
         }
 
-        // FIREBASE SYNC: SIGNALS / MAPPING
+        // FIREBASE SYNC: SIGNALS
         function syncFirebaseSignals() {
             if (!db) return;
             db.ref('signals').on('value', (snapshot) => {
@@ -797,7 +789,7 @@
             });
         }
 
-        // FIREBASE SYNC: CHAT ROOM SHARING
+        // FIREBASE SYNC: CHAT
         function syncFirebaseChat() {
             if (!db) return;
             db.ref('chats').on('value', (snapshot) => {
@@ -810,6 +802,27 @@
                 }
                 renderChatMessages();
             });
+        }
+
+        // AUTO-UPDATE LEADERBOARD USER DARI JURNAL
+        function syncUserJournalToLeaderboard(winRate, totalPnL) {
+            if (!currentUser || !db) return;
+
+            // Hitung NTC Score berdasarkan Win Rate & PnL
+            const calculatedScore = Math.max(100, Math.round((winRate * 8) + (totalPnL * 0.2) + 400));
+            
+            // Cari data user di database
+            const matchedMember = membersData.find(m => m.id === currentUser.id || m.email === currentUser.email);
+
+            const updatedData = {
+                winRate: parseFloat(winRate),
+                pnl: parseFloat(totalPnL.toFixed(2)),
+                score: calculatedScore
+            };
+
+            if (matchedMember && matchedMember.fbKey) {
+                db.ref('members/' + matchedMember.fbKey).update(updatedData);
+            }
         }
 
         function switchChannel(channelId, channelTitle) {
@@ -998,7 +1011,6 @@
             }).catch(err => alert('Gagal mengirim sinyal: ' + err.message));
         }
 
-        // DELETE SIGNAL (ADMIN ONLY)
         function deleteSignal(fbKey) {
             if (!isAdminLoggedIn() || !db) return;
             if (confirm('Hapus sinyal ini dari portal member?')) {
@@ -1006,7 +1018,6 @@
             }
         }
 
-        // RENDER SIGNALS KE UI
         function renderSignals() {
             const container = document.getElementById('mappingDisplayArea');
             container.innerHTML = '';
@@ -1050,7 +1061,6 @@
             });
         }
 
-        // REFRESH LEADERBOARD
         function refreshLeaderboardData() {
             const icon = document.getElementById('refreshLeaderboardIcon');
             icon.classList.add('fa-spin');
@@ -1078,21 +1088,23 @@
         // LIVE FOREX FACTORY NEWS API
         async function fetchLiveForexFactoryNews() {
             try {
-                const response = await fetch('https://api.allorigins.win/raw?url=https://n3.forexfactory.com/forex_factory_calendar.json');
+                const response = await fetch('https://api.parse.bot/scraper/0d3aa2e2-80b6-42dc-986a-d7f0845f4deb/get_calendar');
                 const newsFeed = await response.json();
                 const now = new Date();
                 const upcoming = [], passed = [];
 
-                newsFeed.slice(0, 30).forEach(item => {
-                    const eventTime = new Date(item.date);
+                const items = Array.isArray(newsFeed) ? newsFeed : (newsFeed.events || newsFeed.data || []);
+
+                items.slice(0, 30).forEach(item => {
+                    const eventTime = new Date(item.date || item.time);
                     const itemObj = {
-                        currency: item.country || 'USD',
-                        title: item.title,
-                        date: eventTime.toLocaleDateString('id-ID', { day: '2-digit', month: 'short' }),
-                        time: eventTime.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WITA',
-                        impact: item.impact
+                        currency: item.country || item.currency || 'USD',
+                        title: item.title || item.event || 'Economic Event',
+                        date: !isNaN(eventTime) ? eventTime.toLocaleDateString('id-ID', { day: '2-digit', month: 'short' }) : 'Hari Ini',
+                        time: !isNaN(eventTime) ? eventTime.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WITA' : 'Segera',
+                        impact: item.impact || 'High'
                     };
-                    if (eventTime >= now) upcoming.push(itemObj);
+                    if (isNaN(eventTime) || eventTime >= now) upcoming.push(itemObj);
                     else passed.push(itemObj);
                 });
 
@@ -1187,9 +1199,9 @@
                         ${m.name} ${isAdmin ? '<span class="bg-amber-500 text-slate-950 font-extrabold text-[9px] px-1 rounded">ADMIN</span>' : isCurrentUser ? '<span class="bg-amber-500 text-slate-950 font-bold text-[9px] px-1 rounded">YOU</span>' : ''}
                     </td>
                     <td class="p-3 text-center text-xs"><span class="bg-amber-500/10 text-amber-400 text-[10px] px-1.5 py-0.5 rounded border border-amber-500/20">VERIFIED</span></td>
-                    <td class="p-3 text-right font-mono text-emerald-400 font-bold">${m.winRate}%</td>
-                    <td class="p-3 text-right font-mono text-slate-200">$${m.pnl}</td>
-                    <td class="p-3 text-right font-mono font-bold text-amber-400">${m.score}</td>
+                    <td class="p-3 text-right font-mono text-emerald-400 font-bold">${m.winRate || 0}%</td>
+                    <td class="p-3 text-right font-mono text-slate-200">$${m.pnl || 0}</td>
+                    <td class="p-3 text-right font-mono font-bold text-amber-400">${m.score || 500}</td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -1370,6 +1382,10 @@
             document.getElementById('statWinRate').textContent = `${winRate}%`;
             document.getElementById('statTotalPnL').textContent = `${totalPnL >= 0 ? '+' : ''}$${totalPnL.toFixed(2)}`;
             document.getElementById('statFinalBalance').textContent = `$${finalBalance.toFixed(2)}`;
+            
+            // PANGGUL AUTO-SYNC LEADERBOARD
+            syncUserJournalToLeaderboard(winRate, totalPnL);
+            
             updateChart();
         }
 
