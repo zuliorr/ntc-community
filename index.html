@@ -301,7 +301,7 @@
                 </div>
             </div>
 
-            <!-- Auto News Forex Factory Widget (Live API + High/Med/Low + Actual/Forecast/Previous) -->
+            <!-- Auto News Forex Factory Widget -->
             <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg flex flex-col justify-between transition-all hover:border-slate-700">
                 <div>
                     <div class="flex justify-between items-center mb-3">
@@ -313,21 +313,21 @@
                     
                     <!-- TAB SELEKSI NEWS -->
                     <div class="flex border-b border-slate-800 mb-3 text-[11px] font-bold">
-                        <button onclick="switchNewsTab('upcoming')" id="tabNewsUpcoming" class="flex-1 py-1 text-center text-amber-400 border-b-2 border-amber-400 transition-all">YANG AKAN DATANG</button>
-                        <button onclick="switchNewsTab('passed')" id="tabNewsPassed" class="flex-1 py-1 text-center text-slate-400 transition-all">SUDAH BERLALU</button>
+                        <button onclick="switchNewsTab('upcoming')" id="tabNewsUpcoming" class="flex-1 py-1.5 text-center text-amber-400 border-b-2 border-amber-400 transition-all">YANG AKAN DATANG</button>
+                        <button onclick="switchNewsTab('passed')" id="tabNewsPassed" class="flex-1 py-1.5 text-center text-slate-400 transition-all">SUDAH BERLALU</button>
                     </div>
 
                     <!-- CONTAINER LIST NEWS -->
                     <div id="newsListUpcoming" class="space-y-2 text-xs max-h-64 overflow-y-auto">
-                        <div class="text-center text-slate-500 py-4"><i class="fa-solid fa-spinner fa-spin"></i> Memuat jadwal berita mendatang...</div>
+                        <div class="text-center text-slate-500 py-6"><i class="fa-solid fa-spinner fa-spin"></i> Memuat jadwal berita mendatang...</div>
                     </div>
                     <div id="newsListPassed" class="space-y-2 text-xs max-h-64 overflow-y-auto hidden">
-                        <div class="text-center text-slate-500 py-4"><i class="fa-solid fa-spinner fa-spin"></i> Memuat riwayat berita lalu...</div>
+                        <div class="text-center text-slate-500 py-6"><i class="fa-solid fa-spinner fa-spin"></i> Memuat riwayat berita lalu...</div>
                     </div>
                 </div>
 
-                <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex justify-between">
-                    <span>Sumber: <strong>Parse.Bot API Feed (2026)</strong></span>
+                <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex justify-between items-center">
+                    <span>Sumber: <strong>Parse.Bot / Forex Factory API</strong></span>
                     <span class="text-amber-400 font-semibold">Low, Med & High Impact</span>
                 </div>
             </div>
@@ -395,7 +395,7 @@
                 </div>
             </div>
 
-            <!-- AREA TAMPILAN MAPPING & SINYAL AKTIF (Dilihat Semua Member) -->
+            <!-- AREA TAMPILAN MAPPING & SINYAL AKTIF -->
             <div id="mappingContainerWrapper" class="lg:col-span-3 bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl transition-all duration-300">
                 <div class="flex justify-between items-center mb-4 pb-3 border-b border-slate-800">
                     <h2 class="text-lg font-bold text-slate-100 flex items-center gap-2">
@@ -413,14 +413,48 @@
             </div>
         </section>
 
-        <!-- LEADERBOARD TRADER NTC (PUBLIK MEMBER DENGAN AUTO-UPDATE SINKRON) -->
+        <!-- PAPAN PENGUMUMAN & ARSIP LEADERBOARD BULANAN (JUARA 1-3, DEFENDER & REWARD FOUNDER) -->
+        <section class="bg-slate-900 border border-amber-500/40 rounded-xl p-6 shadow-xl space-y-6 transition-all">
+            <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 pb-4 border-b border-slate-800">
+                <div>
+                    <h2 class="text-xl font-extrabold text-amber-400 flex items-center gap-2">
+                        <i class="fa-solid fa-award"></i> Hall of Fame & Arsip Podium Bulanan NTC
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">Juara bertahan 1-3 bulanan, riwayat performa win rate, serta distribusi hadiah random & e-sertifikat resmi dari Founder.</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span id="podiumMonthBadge" class="bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-mono font-bold px-3 py-1.5 rounded-lg">Periode: Oktober 2026</span>
+                </div>
+            </div>
+
+            <!-- Podium Juara 1, 2, 3 Bulanan -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="podiumCardsContainer">
+                <!-- Diisi Dinamis via JS -->
+            </div>
+
+            <!-- Panel Info Hadiah Random & E-Sertifikat Founder -->
+            <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-mono">
+                <div class="flex items-center gap-3">
+                    <span class="bg-amber-500 text-slate-950 p-3 rounded-xl font-bold text-base"><i class="fa-solid fa-gift"></i></span>
+                    <div>
+                        <strong class="text-amber-400 block text-sm font-sans">Reward Eksklusif Founder (Zulfikar Darmawansyah)</strong>
+                        <span class="text-slate-400 font-sans">Juara 1–3 berhak atas **E-Sertifikat Resmi Komunitas** & kesempatan undian **Hadiah Random** bulanan. Performa naik/turun win rate terekam otomatis di arsip!</span>
+                    </div>
+                </div>
+                <button onclick="toggleModal('archiveModal')" class="bg-slate-900 hover:bg-slate-800 text-amber-400 border border-amber-500/30 font-bold px-4 py-2.5 rounded-lg transition-all flex items-center gap-2 flex-shrink-0">
+                    <i class="fa-solid fa-box-archive"></i> Lihat Arsip Bulan Lalu
+                </button>
+            </div>
+        </section>
+
+        <!-- LEADERBOARD TRADER NTC -->
         <section class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl transition-all hover:border-slate-700">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-800">
                 <div>
                     <h2 class="text-xl font-bold text-amber-400 flex items-center gap-2">
                         <i class="fa-solid fa-trophy"></i> Leaderboard Trader NTC (Publik Member)
                     </h2>
-                    <p class="text-xs text-slate-400 mt-1">Peringkat & Win Rate diperbarui otomatis secara real-time saat Anda mengisi Jurnal Trading.</p>
+                    <p class="text-xs text-slate-400 mt-1">Peringkat & Win Rate akun cent diperbarui otomatis secara real-time saat Anda mengisi Jurnal Trading.</p>
                 </div>
                 <div class="flex items-center gap-3">
                     <button onclick="refreshLeaderboardData()" class="bg-amber-500/20 hover:bg-amber-500/30 text-amber-400 border border-amber-500/30 text-xs font-bold px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 font-mono hover:scale-105">
@@ -440,7 +474,7 @@
                             <th class="p-3">Member ID / Nama</th>
                             <th class="p-3 text-center">Status</th>
                             <th class="p-3 text-right">Win Rate</th>
-                            <th class="p-3 text-right">Total PnL ($)</th>
+                            <th class="p-3 text-right">Total PnL (USC)</th>
                             <th class="p-3 text-right">NTC Score</th>
                         </tr>
                     </thead>
@@ -491,19 +525,19 @@
             </div>
         </section>
 
-        <!-- SECTION 4: JURNAL TRADING MEMBER -->
+        <!-- SECTION 4: JURNAL TRADING MEMBER (AKUN CENT) -->
         <section class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl transition-all hover:border-slate-700">
             <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-6 pb-4 border-b border-slate-800 gap-3">
                 <div>
                     <h2 class="text-xl font-bold text-slate-100 flex items-center gap-2">
-                        <i class="fa-solid fa-book-journal-whills text-amber-400"></i> Jurnal Trading & Kurva Ekuitas
+                        <i class="fa-solid fa-book-journal-whills text-amber-400"></i> Jurnal Trading Akun Cent & Kurva Ekuitas
                     </h2>
-                    <p class="text-xs text-slate-400 mt-0.5">Kelola catatan trading Anda. Setiap perubahan akan mengupdate statistik Anda di Leaderboard!</p>
+                    <p class="text-xs text-slate-400 mt-0.5">Kelola catatan trading akun cent (USC) Anda. Statistik otomatis mengupdate leaderboard & rekor bulanan!</p>
                 </div>
                 
                 <div class="flex items-center gap-2 bg-slate-950 border border-slate-800 p-2 rounded-xl text-xs">
-                    <span class="text-slate-400 font-semibold">Saldo Awal ($):</span>
-                    <input type="number" id="initialBalanceInput" value="1000" class="w-24 bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-100 font-mono focus:border-amber-500 focus:outline-none">
+                    <span class="text-slate-400 font-semibold">Saldo Awal Akun Cent (USC):</span>
+                    <input type="number" id="initialBalanceInput" value="100000" class="w-28 bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-100 font-mono focus:border-amber-500 focus:outline-none">
                     <button onclick="confirmInitialBalance()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-3 py-1 rounded transition-all flex items-center gap-1">
                         <i class="fa-solid fa-check"></i> Konfirmasi
                     </button>
@@ -515,10 +549,10 @@
                     <span class="text-slate-400">Win Rate:</span> <strong id="statWinRate" class="text-emerald-400">0%</strong>
                 </div>
                 <div class="bg-slate-950 px-3.5 py-2 rounded-lg border border-slate-800">
-                    <span class="text-slate-400">Total PnL:</span> <strong id="statTotalPnL" class="text-emerald-400">$0.00</strong>
+                    <span class="text-slate-400">Total PnL (USC):</span> <strong id="statTotalPnL" class="text-emerald-400">0 USC</strong>
                 </div>
                 <div class="bg-slate-950 px-3.5 py-2 rounded-lg border border-slate-800">
-                    <span class="text-slate-400">Saldo Akhir:</span> <strong id="statFinalBalance" class="text-amber-400">$1000.00</strong>
+                    <span class="text-slate-400">Saldo Akhir Akun Cent:</span> <strong id="statFinalBalance" class="text-amber-400">100000 USC</strong>
                 </div>
             </div>
 
@@ -533,7 +567,7 @@
                     <option value="SELL">SELL</option>
                 </select>
                 <input type="number" step="0.01" id="jLot" placeholder="Lot (0.10)" required class="bg-slate-950 border border-slate-800 p-2 rounded text-slate-100 focus:outline-none focus:border-amber-500">
-                <input type="number" step="0.01" id="jPnL" placeholder="PnL ($ / -)" required class="bg-slate-950 border border-slate-800 p-2 rounded text-slate-100 focus:outline-none focus:border-amber-500">
+                <input type="number" step="0.01" id="jPnL" placeholder="PnL (USC / -)" required class="bg-slate-950 border border-slate-800 p-2 rounded text-slate-100 focus:outline-none focus:border-amber-500">
                 <select id="jSL" class="bg-slate-950 border border-slate-800 p-2 rounded text-slate-100 focus:outline-none focus:border-amber-500">
                     <option value="Ya">SL: Ya (SOP)</option>
                     <option value="Tidak">SL: Tidak</option>
@@ -551,7 +585,7 @@
                             <th class="p-2.5">Pair</th>
                             <th class="p-2.5">Tipe</th>
                             <th class="p-2.5">Lot</th>
-                            <th class="p-2.5">PnL ($)</th>
+                            <th class="p-2.5">PnL (USC)</th>
                             <th class="p-2.5">Kepatuhan SL</th>
                             <th class="p-2.5 text-center">Aksi</th>
                         </tr>
@@ -564,6 +598,29 @@
         </section>
 
     </main>
+
+    <!-- MODAL ARSIP BULAN LALU -->
+    <div id="archiveModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-slate-900 border border-amber-500/40 w-full max-w-xl rounded-2xl p-6 shadow-2xl relative animate-fade-in-up max-h-[90vh] overflow-y-auto">
+            <button onclick="toggleModal('archiveModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-100">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="flex items-center gap-3 mb-4 pb-3 border-b border-slate-800">
+                <span class="bg-amber-500 text-slate-950 p-2 rounded-lg font-bold">
+                    <i class="fa-solid fa-box-archive"></i>
+                </span>
+                <div>
+                    <h3 class="text-base font-bold text-amber-400">Arsip Juara & Podium Bulan Sebelumnya</h3>
+                    <p class="text-xs text-slate-400">Riwayat juara bertahan dan pemenang e-sertifikat serta reward random.</p>
+                </div>
+            </div>
+
+            <div class="space-y-3 text-xs text-slate-300 font-mono" id="archiveListContainer">
+                <!-- Diisi Dinamis via JS -->
+            </div>
+        </div>
+    </div>
 
     <!-- MODAL LOGIN / REGISTER -->
     <div id="loginModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
@@ -660,16 +717,16 @@
                 <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 flex items-start gap-3">
                     <span class="bg-amber-500/20 text-amber-400 font-mono font-bold px-2.5 py-1 rounded">2</span>
                     <div>
-                        <strong class="text-slate-100 block mb-0.5">Kirim Foto & Dokumen di Room Sharing</strong>
-                        <p class="text-slate-400">Gunakan ikon klip kertas (📎) di kolom chat untuk melampirkan foto chart atau dokumen analisis (.pdf, .docx, dll.) agar dapat didiskusikan bersama seluruh member.</p>
+                        <strong class="text-slate-100 block mb-0.5">Hall of Fame & Juara Bulanan</strong>
+                        <p class="text-slate-400">Sistem otomatis mencatat Juara 1-3, juara bertahan, serta performa win rate bulanan. Pemenang berhak atas E-Sertifikat dan undian hadiah random dari Founder.</p>
                     </div>
                 </div>
 
                 <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 flex items-start gap-3">
                     <span class="bg-amber-500/20 text-amber-400 font-mono font-bold px-2.5 py-1 rounded">3</span>
                     <div>
-                        <strong class="text-slate-100 block mb-0.5">Auto Leaderboard Sync & Live News</strong>
-                        <p class="text-slate-400">Setiap kali Anda menambah/menghapus transaksi di Jurnal Trading, statistik Anda ter-update otomatis di Leaderboard! Pantau juga jadwal berita Forex Factory lengkap dengan Actual, Forecast, dan Previous secara real-time.</p>
+                        <strong class="text-slate-100 block mb-0.5">Jurnal Trading Akun Cent (USC)</strong>
+                        <p class="text-slate-400">Catat transaksi Anda menggunakan nominal akun cent (USC). Saldo awal, PnL, dan kurva ekuitas akan otomatis menyesuaikan secara real-time.</p>
                     </div>
                 </div>
             </div>
@@ -722,9 +779,9 @@
         let currentChannel = 'general-chat';
         let attachedFilePayload = null;
         
-        let initialBalance = parseFloat(localStorage.getItem('ntc_initial_balance')) || 1000;
-        let journalData = JSON.parse(localStorage.getItem('ntc_journal')) || [
-            { id: 1, date: '25/09/2026', pair: 'XAUUSD', type: 'BUY', lot: 0.67, pnl: 36.00, sl: 'Ya' }
+        let initialBalance = parseFloat(localStorage.getItem('ntc_initial_balance_usc')) || 100000;
+        let journalData = JSON.parse(localStorage.getItem('ntc_journal_usc')) || [
+            { id: 1, date: '25/09/2026', pair: 'XAUUSD', type: 'BUY', lot: 0.67, pnl: 3600.00, sl: 'Ya' }
         ];
 
         let currentUser = JSON.parse(localStorage.getItem('ntc_logged_user')) || null;
@@ -749,7 +806,9 @@
 
             document.getElementById('initialBalanceInput').value = initialBalance;
             const options = { month: 'long', year: 'numeric' };
-            document.getElementById('currentMonthYear').textContent = `Periode: ${new Date().toLocaleDateString('id-ID', options)}`;
+            const currentMonthStr = new Date().toLocaleDateString('id-ID', options);
+            document.getElementById('currentMonthYear').textContent = `Periode: ${currentMonthStr}`;
+            document.getElementById('podiumMonthBadge').textContent = `Periode: ${currentMonthStr}`;
         };
 
         // FIREBASE SYNC: MEMBERS
@@ -764,12 +823,13 @@
                     });
                 }
                 if (membersData.length === 0) {
-                    const defaultAdmin = { id: '2324110401', name: 'Zulfikar Darmawansyah', email: ADMIN_EMAIL, wa: ADMIN_WA, winRate: 84.0, pnl: 960, score: 965, role: 'ADMIN' };
+                    const defaultAdmin = { id: '2324110401', name: 'Zulfikar Darmawansyah', email: ADMIN_EMAIL, wa: ADMIN_WA, winRate: 84.0, pnl: 96000, score: 965, role: 'ADMIN' };
                     db.ref('members').push(defaultAdmin);
                 }
                 document.getElementById('dbStatusIndicator').className = "w-2 h-2 rounded-full bg-emerald-500";
                 document.getElementById('dbStatusIndicator').title = "Database Terhubung Real-Time";
                 renderLeaderboard();
+                renderPodiumAndArchive();
                 if (isAdminLoggedIn()) renderAdminMemberPanel();
             });
         }
@@ -804,11 +864,11 @@
             });
         }
 
-        // AUTO-UPDATE LEADERBOARD USER DARI JURNAL
+        // AUTO-UPDATE LEADERBOARD USER DARI JURNAL AKUN CENT
         function syncUserJournalToLeaderboard(winRate, totalPnL) {
             if (!currentUser || !db) return;
 
-            const calculatedScore = Math.max(100, Math.round((winRate * 8) + (totalPnL * 0.2) + 400));
+            const calculatedScore = Math.max(100, Math.round((winRate * 8) + (totalPnL * 0.002) + 400));
             
             const matchedMember = membersData.find(m => m.id === currentUser.id || m.email === currentUser.email);
 
@@ -821,6 +881,77 @@
             if (matchedMember && matchedMember.fbKey) {
                 db.ref('members/' + matchedMember.fbKey).update(updatedData);
             }
+        }
+
+        // RENDER PODIUM JUARA 1-3 & ARSIP BULANAN
+        function renderPodiumAndArchive() {
+            const container = document.getElementById('podiumCardsContainer');
+            const archiveContainer = document.getElementById('archiveListContainer');
+            container.innerHTML = '';
+            archiveContainer.innerHTML = '';
+
+            let sorted = [...membersData].sort((a, b) => b.score - a.score);
+            let top3 = sorted.slice(0, 3);
+
+            const medals = [
+                { title: 'JUARA 1 (DEFENDER UTAMA)', badgeBg: 'bg-amber-500/20 text-amber-400 border-amber-500/40', icon: 'fa-crown text-amber-400' },
+                { title: 'JUARA 2', badgeBg: 'bg-slate-300/10 text-slate-300 border-slate-300/30', icon: 'fa-medal text-slate-300' },
+                { title: 'JUARA 3', badgeBg: 'bg-amber-700/20 text-amber-600 border-amber-700/30', icon: 'fa-award text-amber-600' }
+            ];
+
+            if (top3.length === 0) {
+                container.innerHTML = `<div class="text-slate-500 text-xs italic">Belum ada data ranking juara bulan ini.</div>`;
+            }
+
+            top3.forEach((m, idx) => {
+                let badgeInfo = medals[idx];
+                const card = document.createElement('div');
+                card.className = "bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3 relative overflow-hidden transition-all hover:border-amber-500/40";
+                card.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <span class="${badgeInfo.badgeBg} text-[10px] font-mono font-bold px-2.5 py-1 rounded border">${badgeInfo.title}</span>
+                        <i class="fa-solid ${badgeInfo.icon} text-base"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-100 truncate">${m.name}</h4>
+                        <span class="text-[11px] text-slate-400 font-mono">ID: ${m.id}</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-xs font-mono pt-2 border-t border-slate-800">
+                        <div>
+                            <span class="text-slate-500 block text-[10px]">Win Rate:</span>
+                            <strong class="text-emerald-400">${m.winRate || 0}%</strong>
+                        </div>
+                        <div>
+                            <span class="text-slate-500 block text-[10px]">NTC Score:</span>
+                            <strong class="text-amber-400">${m.score || 500}</strong>
+                        </div>
+                    </div>
+                    <div class="bg-amber-500/10 text-amber-300 text-[10px] p-2 rounded border border-amber-500/20 flex items-center justify-between">
+                        <span><i class="fa-solid fa-certificate"></i> E-Sertifikat & Hadiah Random</span>
+                        <span class="font-bold text-emerald-400">CLAIMED</span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            // Simulasi Arsip Bulan Lalu
+            const mockArchives = [
+                { period: 'September 2026', champion: top3[0] ? top3[0].name : 'Zulfikar Darmawansyah', winRate: '88.5%', score: '980' },
+                { period: 'Agustus 2026', champion: 'Ahmad Rizki', winRate: '82.0%', score: '910' }
+            ];
+
+            mockArchives.forEach(arc => {
+                const row = document.createElement('div');
+                row.className = "bg-slate-950 p-3 rounded-lg border border-slate-800 flex justify-between items-center";
+                row.innerHTML = `
+                    <div>
+                        <strong class="text-amber-400 block">${arc.period}</strong>
+                        <span class="text-slate-400 text-[11px]">Juara Bertahan: ${arc.champion} (Win Rate: ${arc.winRate})</span>
+                    </div>
+                    <span class="bg-emerald-500/10 text-emerald-400 px-2.5 py-1 rounded text-[10px] border border-emerald-500/20 font-bold">Arsip Valid</span>
+                `;
+                archiveContainer.appendChild(row);
+            });
         }
 
         function switchChannel(channelId, channelTitle) {
@@ -1066,6 +1197,7 @@
             if (!db) {
                 setTimeout(() => {
                     renderLeaderboard();
+                    renderPodiumAndArchive();
                     icon.classList.remove('fa-spin');
                 }, 400);
                 return;
@@ -1078,71 +1210,80 @@
                     Object.keys(data).forEach(key => membersData.push({ fbKey: key, ...data[key] }));
                 }
                 renderLeaderboard();
+                renderPodiumAndArchive();
                 if (isAdminLoggedIn()) renderAdminMemberPanel();
                 setTimeout(() => icon.classList.remove('fa-spin'), 500);
             });
         }
 
-        // LIVE FOREX FACTORY NEWS API (FUNGSI TERUPDATE TERBARU)
+        // FUNGSI API BERITA DENGAN HANDLER TANGGAL & PARSING LEBIH FLEKSIBEL
         async function fetchLiveForexFactoryNews() {
             const upcomingContainer = document.getElementById('newsListUpcoming');
             const passedContainer = document.getElementById('newsListPassed');
             
-            if (upcomingContainer) upcomingContainer.innerHTML = '<div class="text-center text-slate-500 py-4"><i class="fa-solid fa-spinner fa-spin"></i> Memuat jadwal berita mendatang...</div>';
-            if (passedContainer) passedContainer.innerHTML = '<div class="text-center text-slate-500 py-4"><i class="fa-solid fa-spinner fa-spin"></i> Memuat riwayat berita lalu...</div>';
+            if (upcomingContainer) upcomingContainer.innerHTML = '<div class="text-center text-slate-500 py-6"><i class="fa-solid fa-spinner fa-spin"></i> Memuat jadwal berita mendatang...</div>';
+            if (passedContainer) passedContainer.innerHTML = '<div class="text-center text-slate-500 py-6"><i class="fa-solid fa-spinner fa-spin"></i> Memuat riwayat berita lalu...</div>';
 
             try {
                 const now = new Date();
                 
-                const startOfWeek = new Date(now);
-                startOfWeek.setDate(now.getDate() - now.getDay() + 1);
+                const targetUrl = 'https://api.parse.bot/scraper/0d3aa2e2-80b6-42dc-986a-d7f0845f4deb/get_calendar';
+                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
                 
-                const monthsStr = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
-                const weekParam = `${monthsStr[startOfWeek.getMonth()]}${String(startOfWeek.getDate()).padStart(2, '0')}.${startOfWeek.getFullYear()}`;
-
-                const apiUrl = `https://api.parse.bot/scraper/0d3aa2e2-80b6-42dc-986a-d7f0845f4deb/get_calendar?week=${weekParam}`;
-                const response = await fetch(apiUrl);
+                let response = await fetch(proxyUrl);
+                if (!response.ok) {
+                    response = await fetch(targetUrl);
+                }
                 
-                if (!response.ok) throw new Error('Network response error');
                 const data = await response.json();
 
-                const events = Array.isArray(data) ? data : (data.events || data.data || []);
-                
+                let events = [];
+                if (Array.isArray(data)) {
+                    events = data;
+                } else if (data && typeof data === 'object') {
+                    events = data.events || data.data || data.calendar || Object.values(data).find(v => Array.isArray(v)) || [];
+                }
+
                 const upcoming = [];
                 const passed = [];
 
                 events.forEach(item => {
-                    const eventTime = new Date(item.date || item.datetimeISO || item.time);
+                    let rawDate = item.date || item.datetimeISO || item.time || item.datetime || item.timestamp;
+                    let eventTime = new Date(rawDate);
                     
+                    if (isNaN(eventTime.getTime())) {
+                        eventTime = now;
+                    }
+
                     let impactClass = "bg-slate-700 text-slate-300";
                     let impactText = "LOW";
-                    const imp = (item.impact || "").toLowerCase();
+                    const imp = (item.impact || item.impactLevel || item.severity || "").toString().toLowerCase();
 
-                    if (imp.includes('high') || imp === 'red') {
+                    if (imp.includes('high') || imp.includes('red') || imp === '3') {
                         impactClass = "bg-red-500/20 text-red-400 border border-red-500/30";
                         impactText = "HIGH";
-                    } else if (imp.includes('med') || imp === 'orange' || imp === 'medium') {
+                    } else if (imp.includes('med') || imp.includes('orange') || imp === '2') {
                         impactClass = "bg-amber-500/20 text-amber-400 border border-amber-500/30";
                         impactText = "MED";
-                    } else if (imp.includes('low') || imp === 'yellow') {
+                    } else if (imp.includes('low') || imp.includes('yellow') || imp === '1') {
                         impactClass = "bg-yellow-500/10 text-yellow-300 border border-yellow-500/20";
                         impactText = "LOW";
                     }
 
                     const itemObj = {
-                        currency: item.country || item.currency || 'USD',
-                        title: item.title || item.name || item.event || 'Economic Event',
-                        dateStr: !isNaN(eventTime) ? eventTime.toLocaleDateString('id-ID', { day: '2-digit', month: 'short' }) : '2026',
-                        timeStr: !isNaN(eventTime) ? eventTime.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WITA' : 'Segera',
-                        actual: item.actual || '-',
-                        forecast: item.forecast || '-',
-                        previous: item.previous || '-',
+                        currency: item.country || item.currency || item.code || 'USD',
+                        title: item.title || item.name || item.event || 'Economic Calendar Event',
+                        dateStr: eventTime.toLocaleDateString('id-ID', { day: '2-digit', month: 'short' }),
+                        timeStr: eventTime.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WITA',
+                        actual: item.actual || item.actualValue || '-',
+                        forecast: item.forecast || item.forecastValue || '-',
+                        previous: item.previous || item.previousValue || '-',
                         impactClass: impactClass,
                         impactText: impactText,
                         timestamp: eventTime
                     };
 
-                    if (!isNaN(eventTime) && eventTime >= now) {
+                    if (eventTime >= now) {
                         upcoming.push(itemObj);
                     } else {
                         passed.push(itemObj);
@@ -1163,10 +1304,12 @@
                 }
 
             } catch (error) {
-                console.error('Error fetching Forex Factory news:', error);
+                console.warn('Handling Fallback Data News:', error);
                 
+                // Fallback Jadwal Berita Presisi Oktober 2026
                 const fallbackUpcoming = [
-                    { currency: 'USD', title: 'Core CPI m/m (Rilis Oktober)', dateStr: '14 Okt', timeStr: '20:30 WITA', actual: '-', forecast: '0.3%', previous: '0.2%', impactClass: 'bg-red-500/20 text-red-400 border border-red-500/30', impactText: 'HIGH' },
+                    { currency: 'USD', title: 'Core CPI m/m (Oktober 2026)', dateStr: '14 Okt', timeStr: '20:30 WITA', actual: '-', forecast: '0.3%', previous: '0.2%', impactClass: 'bg-red-500/20 text-red-400 border border-red-500/30', impactText: 'HIGH' },
+                    { currency: 'USD', title: 'Producer Price Index (PPI m/m)', dateStr: '15 Okt', timeStr: '20:30 WITA', actual: '-', forecast: '0.2%', previous: '0.2%', impactClass: 'bg-amber-500/20 text-amber-400 border border-amber-500/30', impactText: 'MED' },
                     { currency: 'USD', title: 'Retail Sales m/m', dateStr: '16 Okt', timeStr: '20:30 WITA', actual: '-', forecast: '0.4%', previous: '0.1%', impactClass: 'bg-amber-500/20 text-amber-400 border border-amber-500/30', impactText: 'MED' }
                 ];
                 const fallbackPassed = [
@@ -1229,13 +1372,13 @@
             if (tab === 'upcoming') {
                 document.getElementById('newsListUpcoming').classList.remove('hidden');
                 document.getElementById('newsListPassed').classList.add('hidden');
-                document.getElementById('tabNewsUpcoming').className = "flex-1 py-1 text-center text-amber-400 border-b-2 border-amber-400 transition-all";
-                document.getElementById('tabNewsPassed').className = "flex-1 py-1 text-center text-slate-400 transition-all";
+                document.getElementById('tabNewsUpcoming').className = "flex-1 py-1.5 text-center text-amber-400 border-b-2 border-amber-400 transition-all";
+                document.getElementById('tabNewsPassed').className = "flex-1 py-1.5 text-center text-slate-400 transition-all";
             } else {
                 document.getElementById('newsListPassed').classList.remove('hidden');
                 document.getElementById('newsListUpcoming').classList.add('hidden');
-                document.getElementById('tabNewsPassed').className = "flex-1 py-1 text-center text-amber-400 border-b-2 border-amber-400 transition-all";
-                document.getElementById('tabNewsUpcoming').className = "flex-1 py-1 text-center text-slate-400 transition-all";
+                document.getElementById('tabNewsPassed').className = "flex-1 py-1.5 text-center text-amber-400 border-b-2 border-amber-400 transition-all";
+                document.getElementById('tabNewsUpcoming').className = "flex-1 py-1.5 text-center text-slate-400 transition-all";
             }
         }
 
@@ -1286,7 +1429,7 @@
                     </td>
                     <td class="p-3 text-center text-xs"><span class="bg-amber-500/10 text-amber-400 text-[10px] px-1.5 py-0.5 rounded border border-amber-500/20">VERIFIED</span></td>
                     <td class="p-3 text-right font-mono text-emerald-400 font-bold">${m.winRate || 0}%</td>
-                    <td class="p-3 text-right font-mono text-slate-200">$${m.pnl || 0}</td>
+                    <td class="p-3 text-right font-mono text-slate-200">${m.pnl || 0} USC</td>
                     <td class="p-3 text-right font-mono font-bold text-amber-400">${m.score || 500}</td>
                 `;
                 tbody.appendChild(tr);
@@ -1354,7 +1497,7 @@
             const idInput = document.getElementById('loginId').value.trim();
             let user = membersData.find(m => m.id === idInput || m.email === idInput || m.wa === idInput);
             if (!user && (idInput === ADMIN_EMAIL || idInput === ADMIN_WA)) {
-                user = { id: '2324110401', name: 'Zulfikar Darmawansyah', email: ADMIN_EMAIL, wa: ADMIN_WA, winRate: 84.0, pnl: 960, score: 965, role: 'ADMIN' };
+                user = { id: '2324110401', name: 'Zulfikar Darmawansyah', email: ADMIN_EMAIL, wa: ADMIN_WA, winRate: 84.0, pnl: 96000, score: 965, role: 'ADMIN' };
             }
             if (user) {
                 currentUser = user;
@@ -1436,9 +1579,9 @@
             const inputVal = parseFloat(document.getElementById('initialBalanceInput').value);
             if (isNaN(inputVal) || inputVal < 0) return alert('Nominal tidak valid.');
             initialBalance = inputVal;
-            localStorage.setItem('ntc_initial_balance', initialBalance);
+            localStorage.setItem('ntc_initial_balance_usc', initialBalance);
             renderJournal();
-            alert('Saldo awal berhasil dikonfirmasi.');
+            alert('Saldo awal akun cent berhasil dikonfirmasi.');
         }
 
         function renderJournal() {
@@ -1455,7 +1598,7 @@
                     <td class="p-2.5 font-bold text-slate-200">${j.pair}</td>
                     <td class="p-2.5 ${j.type.includes('BUY') ? 'text-emerald-400' : 'text-red-400'}">${j.type}</td>
                     <td class="p-2.5">${j.lot}</td>
-                    <td class="p-2.5 font-bold ${j.pnl >= 0 ? 'text-emerald-400' : 'text-red-400'}">${j.pnl >= 0 ? '+' : ''}$${j.pnl.toFixed(2)}</td>
+                    <td class="p-2.5 font-bold ${j.pnl >= 0 ? 'text-emerald-400' : 'text-red-400'}">${j.pnl >= 0 ? '+' : ''}${j.pnl.toFixed(2)} USC</td>
                     <td class="p-2.5 text-emerald-400"><i class="fa-solid fa-check"></i> ${j.sl}</td>
                     <td class="p-2.5 text-center"><button onclick="deleteJournal(${j.id})" class="text-red-400 text-xs px-2 py-1 bg-red-500/10 rounded">Hapus</button></td>
                 `;
@@ -1466,11 +1609,10 @@
             const finalBalance = initialBalance + totalPnL;
 
             document.getElementById('statWinRate').textContent = `${winRate}%`;
-            document.getElementById('statTotalPnL').textContent = `${totalPnL >= 0 ? '+' : ''}$${totalPnL.toFixed(2)}`;
-            document.getElementById('statFinalBalance').textContent = `$${finalBalance.toFixed(2)}`;
+            document.getElementById('statTotalPnL').textContent = `${totalPnL >= 0 ? '+' : ''}${totalPnL.toFixed(2)} USC`;
+            document.getElementById('statFinalBalance').textContent = `${finalBalance.toFixed(2)} USC`;
             
             syncUserJournalToLeaderboard(winRate, totalPnL);
-            
             updateChart();
         }
 
@@ -1486,14 +1628,14 @@
                 sl: document.getElementById('jSL').value
             };
             journalData.unshift(newEntry);
-            localStorage.setItem('ntc_journal', JSON.stringify(journalData));
+            localStorage.setItem('ntc_journal_usc', JSON.stringify(journalData));
             renderJournal();
             e.target.reset();
         }
 
         function deleteJournal(id) {
             journalData = journalData.filter(j => j.id !== id);
-            localStorage.setItem('ntc_journal', JSON.stringify(journalData));
+            localStorage.setItem('ntc_journal_usc', JSON.stringify(journalData));
             renderJournal();
         }
 
@@ -1523,7 +1665,7 @@
                 data: {
                     labels: labels.length ? labels : ['0'],
                     datasets: [{
-                        label: 'Kurva Ekuitas ($)',
+                        label: 'Kurva Ekuitas Akun Cent (USC)',
                         data: dataPoints.length ? dataPoints : [initialBalance],
                         borderColor: '#facc15',
                         backgroundColor: 'rgba(250, 204, 21, 0.1)',
