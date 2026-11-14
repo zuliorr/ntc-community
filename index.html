@@ -84,20 +84,7 @@
             </div>
         </div>
     </header>
-
-    <!-- NOTIFIKASI NEWS WARNING BANNER -->
-    <div class="bg-amber-500/10 border-b border-amber-500/30 px-4 py-2">
-        <div class="max-w-7xl mx-auto flex items-center justify-between text-xs text-amber-300">
-            <div class="flex items-center gap-2 overflow-hidden">
-                <i class="fa-solid fa-triangle-exclamation text-amber-400 animate-bounce flex-shrink-0"></i>
-                <span id="topNewsTicker" class="truncate"><strong>LIVE FOREX FACTORY:</strong> Memuat berita high impact mendatang...</span>
-            </div>
-            <button onclick="fetchLiveForexFactoryNews()" class="text-[10px] bg-amber-500/20 hover:bg-amber-500/30 px-2 py-0.5 rounded border border-amber-500/30 font-mono flex-shrink-0 ml-2">
-                <i class="fa-solid fa-rotate"></i> Refresh News
-            </button>
-        </div>
-    </div>
-
+    
     <!-- MAIN CONTAINER -->
     <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full space-y-8 animate-fade-in-up">
 
@@ -248,91 +235,8 @@
             </div>
         </section>
 
-        <!-- SECTION 1: SESI PASAR PRESISI & LIVE API FOREX FACTORY NEWS -->
-        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            
-            <!-- Jam Kerja Trading & Sesi Pasar Presisi (WITA) -->
-            <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg transition-all hover:border-slate-700">
-                <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-4 pb-3 border-b border-slate-800 gap-2">
-                    <h2 class="text-lg font-bold text-slate-100 flex items-center gap-2">
-                        <i class="fa-solid fa-clock text-amber-400"></i> Sesi Pasar Presisi Real-Time (WITA)
-                    </h2>
-                    <div class="text-xs font-mono bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800 text-slate-300">
-                        WITA: <strong id="clockWITA" class="text-amber-400">00:00:00</strong>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
-                    <div id="sessionAsia" class="bg-slate-950 p-3 rounded-lg border border-slate-800 transition-all">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-xs text-slate-400 font-semibold">Sesi Asia</span>
-                            <span id="badgeAsia" class="text-[10px] bg-slate-800 text-slate-400 font-bold px-1.5 py-0.5 rounded">OFFLINE</span>
-                        </div>
-                        <div class="text-sm font-bold text-slate-200">06:00 – 15:00 WITA</div>
-                        <div class="text-[11px] text-slate-500">Sydney & Tokyo</div>
-                    </div>
-
-                    <div id="sessionLondon" class="bg-slate-950 p-3 rounded-lg border border-slate-800 transition-all">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-xs text-slate-400 font-semibold">Sesi London</span>
-                            <span id="badgeLondon" class="text-[10px] bg-slate-800 text-slate-400 font-bold px-1.5 py-0.5 rounded">OFFLINE</span>
-                        </div>
-                        <div class="text-sm font-bold text-slate-200">15:00 – 00:00 WITA</div>
-                        <div class="text-[11px] text-slate-500">Eropa & Inggris</div>
-                    </div>
-
-                    <div id="sessionNY" class="bg-slate-950 p-3 rounded-lg border border-slate-800 transition-all">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-xs text-slate-400 font-semibold">Sesi New York</span>
-                            <span id="badgeNY" class="text-[10px] bg-slate-800 text-slate-400 font-bold px-1.5 py-0.5 rounded">OFFLINE</span>
-                        </div>
-                        <div class="text-sm font-bold text-slate-200">20:00 – 05:00 WITA</div>
-                        <div class="text-[11px] text-slate-500">Amerika Serikat</div>
-                    </div>
-                </div>
-
-                <div class="bg-amber-500/5 border border-amber-500/20 rounded-lg p-3 flex items-start gap-3">
-                    <i class="fa-solid fa-bullseye text-amber-400 mt-1"></i>
-                    <div class="text-xs">
-                        <strong class="text-amber-400">Best Entry Time NTC:</strong>
-                        <span class="text-slate-300"> Sesi Overlap London & New York (20:00 – 00:00 WITA) — Likuiditas & volatilitas tertinggi.</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Auto News Forex Factory Widget -->
-            <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg flex flex-col justify-between transition-all hover:border-slate-700">
-                <div>
-                    <div class="flex justify-between items-center mb-3">
-                        <h3 class="text-sm font-bold text-slate-200 uppercase font-mono tracking-wider flex items-center gap-2">
-                            <i class="fa-solid fa-bolt text-amber-400"></i> Forex Factory News
-                        </h3>
-                        <span class="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Live API Sync</span>
-                    </div>
-                    
-                    <!-- TAB SELEKSI NEWS -->
-                    <div class="flex border-b border-slate-800 mb-3 text-[11px] font-bold">
-                        <button onclick="switchNewsTab('upcoming')" id="tabNewsUpcoming" class="flex-1 py-1.5 text-center text-amber-400 border-b-2 border-amber-400 transition-all">YANG AKAN DATANG</button>
-                        <button onclick="switchNewsTab('passed')" id="tabNewsPassed" class="flex-1 py-1.5 text-center text-slate-400 transition-all">SUDAH BERLALU</button>
-                    </div>
-
-                    <!-- CONTAINER LIST NEWS -->
-                    <div id="newsListUpcoming" class="space-y-2 text-xs max-h-64 overflow-y-auto">
-                        <div class="text-center text-slate-500 py-6"><i class="fa-solid fa-spinner fa-spin"></i> Memuat jadwal berita mendatang...</div>
-                    </div>
-                    <div id="newsListPassed" class="space-y-2 text-xs max-h-64 overflow-y-auto hidden">
-                        <div class="text-center text-slate-500 py-6"><i class="fa-solid fa-spinner fa-spin"></i> Memuat riwayat berita lalu...</div>
-                    </div>
-                </div>
-
-                <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex justify-between items-center">
-                    <span>Sumber: <strong>Forex Factory API Live</strong></span>
-                    <span class="text-amber-400 font-semibold">Low, Med & High Impact</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 2: ADMIN SIGNAL BROADCASTER & MAPPING MEMBER -->
+      
+        <!-- SECTION : ADMIN SIGNAL BROADCASTER & MAPPING MEMBER -->
         <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
             <!-- FORM INPUT SINYAL MANUAL (Hanya Muncul Jika Admin Login) -->
